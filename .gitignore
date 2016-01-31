@@ -3,4 +3,5 @@
 .DS_Store
 .notes.swp
 *.out
-
+testing/
+lib/
