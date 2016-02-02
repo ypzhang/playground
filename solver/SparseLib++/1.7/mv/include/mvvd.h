@@ -34,7 +34,7 @@
 #include <stdlib.h>
 
 // for formatted printing of matrices
-#include <sstream>       
+#include <sstream>
 
 
 #ifdef MV_VECTOR_BOUNDS_CHECK

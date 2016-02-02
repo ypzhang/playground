@@ -1,19 +1,21 @@
 #include <stdlib.h>                         // System includes
-#include <iostream.h>                       // 
+#include <iostream>                       // 
 
 #include "compcol_double.h"                 // Compressed column matrix header
 #include "iohb_double.h"                    // Harwell-Boeing matrix I/O header
 #include "mvblasd.h"                        // MV_Vector level 1 BLAS
 #include "diagpre_double.h"                 // Diagonal preconditioner
+#include "ilupre_double.h"
 
 #include MATRIX_H                           // dense matrix header
 #include "gmres.h"                          // IML++ GMRES template
 
+using namespace std;
 int
 main(int argc, char * argv[])
 {
   if (argc < 2) {
-    cerr << "Usage: " << argv[0] << " HBfile " << endl;
+    std::cerr << "Usage: " << argv[0] << " HBfile " << std::endl;
     exit(-1);
   }
 
@@ -27,9 +29,13 @@ main(int argc, char * argv[])
 
   MATRIX_double H(restart+1, restart, 0.0); // storage for upper Hessenberg H
 
-  DiagPreconditioner_double D(A);           // Create diagonal preconditioner
+  //  DiagPreconditioner_double D(A);           // Create diagonal preconditioner
+  //  result = GMRES(A, x, b, D, H, restart, maxit, tol);  // Solve system
 
-  result = GMRES(A, x, b, D, H, restart, maxit, tol);  // Solve system
+  CompCol_ILUPreconditioner_double ILU(A);
+  result = GMRES(A, x, b, ILU, H, restart, maxit, tol);  // Solve system
+
+
 
   cout << "GMRES flag = " << result << endl;
   cout << "iterations performed: " << maxit << endl;

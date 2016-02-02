@@ -5,3 +5,5 @@
 *.out
 testing/
 lib/
+debug/
+release/
