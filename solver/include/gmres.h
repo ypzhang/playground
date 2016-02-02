@@ -20,7 +20,8 @@
 //*****************************************************************
 
 #include <math.h> 
-
+#include <iomanip>
+#include <gsolver/utility.h>
 
 template<class Real> 
 void GeneratePlaneRotation(Real &dx, Real &dy, Real &cs, Real &sn)
@@ -81,6 +82,8 @@ GMRES(const Operator &A, Vector &x, const Vector &b,
       const Preconditioner &M, Matrix &H, int &m, int &max_iter,
       Real &tol)
 {
+
+  gs::IosFlagSaver iosfs(std::cout);
   Real resid;
   int i, j = 1, k;
   Vector s(m+1), cs(m+1), sn(m+1), w;
@@ -99,7 +102,10 @@ GMRES(const Operator &A, Vector &x, const Vector &b,
   }
 
   Vector *v = new Vector[m+1];
-
+  double last_time = gs::get_cur_time();
+  std::cout << "-- GMRES iterations --" << std::endl;
+  std::cout << "| iter |    residule    |    rel tol   |   wtime   | " << std::endl;
+  std::cout << std::scientific;
   while (j <= max_iter) {
     v[0] = r * (1.0 / beta);    // ??? r / beta
     s = 0.0;
@@ -121,12 +127,16 @@ GMRES(const Operator &A, Vector &x, const Vector &b,
       ApplyPlaneRotation(H(i,i), H(i+1,i), cs(i), sn(i));
       ApplyPlaneRotation(s(i), s(i+1), cs(i), sn(i));
       
-      if ((resid = abs(s(i+1)) / normb) < tol) {
+      resid = abs(s(i+1));
+      double elapse = gs::get_cur_time(); 
+      std::cout << "|  " << std::setfill('0') << std::setw(3)  <<  j << " |   "  << std::scientific
+		<< resid << " | " << resid/normb <<  " | " << std::fixed << elapse - last_time << "  |" << std::endl;
+      if ((resid / normb) < tol) {
         Update(x, i, H, s, v);
         tol = resid;
         max_iter = j;
         delete [] v;
-        return 0;
+	return 0;
       }
     }
     Update(x, m - 1, H, s, v);

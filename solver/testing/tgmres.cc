@@ -29,11 +29,11 @@ main(int argc, char * argv[])
 
   MATRIX_double H(restart+1, restart, 0.0); // storage for upper Hessenberg H
 
-  //  DiagPreconditioner_double D(A);           // Create diagonal preconditioner
-  //  result = GMRES(A, x, b, D, H, restart, maxit, tol);  // Solve system
+   DiagPreconditioner_double D(A);           // Create diagonal preconditioner
+   result = GMRES(A, x, b, D, H, restart, maxit, tol);  // Solve system
 
-  CompCol_ILUPreconditioner_double ILU(A);
-  result = GMRES(A, x, b, ILU, H, restart, maxit, tol);  // Solve system
+  // CompCol_ILUPreconditioner_double ILU(A);
+  // result = GMRES(A, x, b, ILU, H, restart, maxit, tol);  // Solve system
 
 
 

@@ -9,6 +9,7 @@ set (rsolver_VERSION_PATCH 0)
 find_package(OpenMP REQUIRED)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SparseLib++/1.7/include/)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SparseLib++/1.7/mv/include/)
 
@@ -17,9 +18,14 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SparseLib++/1.7/mv/include/)
 #add_definitions(-DCOMPLEX_OSTREAM)
 add_definitions('-DCOMPLEX=std::complex<double>')
 
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11")
+
 include (src_list.txt)
 add_executable(tgmres testing/tgmres.cc 
-	${SPARSE_LIB_SRC_LIST})
+	${SPARSE_LIB_SRC_LIST}
+	./gsolver/utility.cpp
+
+	)
 
 
 
