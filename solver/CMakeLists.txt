@@ -18,14 +18,25 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/SparseLib++/1.7/mv/include/)
 #add_definitions(-DCOMPLEX_OSTREAM)
 add_definitions('-DCOMPLEX=std::complex<double>')
 
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11")
-
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++11 -g")
 include (src_list.txt)
-add_executable(tgmres testing/tgmres.cc 
-	${SPARSE_LIB_SRC_LIST}
-	./gsolver/utility.cpp
 
-	)
+add_library(rsolver ${SPARSE_LIB_SRC_LIST}
+	./gsolver/utility.cpp
+	./gsolver/mmio.cpp
+	./gsolver/matrix_reader.cpp
+	./gsolver/matrix_convert.cpp
+)
+
+
+add_executable(tgmres testing/tgmres.cc)
+target_link_libraries(tgmres rsolver)
+add_executable(tbicgsta testing/tbicgsta.cc)
+target_link_libraries(tbicgsta rsolver)
+
+add_subdirectory(testing/catch)
+
+
 
 
 

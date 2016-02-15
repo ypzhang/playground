@@ -24,16 +24,20 @@ main(int argc, char * argv[])
 
   CompCol_Mat_double A;                     // Create a matrix
   readHB_mat(argv[1], &A);                  // Read matrix data
-  VECTOR_double b, x(A.dim(1), 0.0);        // Create rhs, solution vectors
-  readHB_rhs(argv[1], &b);                  // Read rhs data
+  VECTOR_double b(A.dim(1), 1.0), x(A.dim(1), 0.0);        // Create rhs, solution vectors
+  bool has_rhs = readHB_rhs(argv[1], &b);                  // Read rhs data
+  if (!has_rhs) {
+    for (size_t i = 0; i != b.size(); i++)
+     b(i) = drand48();
+  }
 
   MATRIX_double H(restart+1, restart, 0.0); // storage for upper Hessenberg H
 
    DiagPreconditioner_double D(A);           // Create diagonal preconditioner
    result = GMRES(A, x, b, D, H, restart, maxit, tol);  // Solve system
 
-  // CompCol_ILUPreconditioner_double ILU(A);
-  // result = GMRES(A, x, b, ILU, H, restart, maxit, tol);  // Solve system
+   //CompCol_ILUPreconditioner_double ILU(A);
+   //   result = GMRES(A, x, b, ILU, H, restart, maxit, tol);  // Solve system
 
 
 

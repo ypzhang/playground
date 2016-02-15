@@ -119,7 +119,7 @@ const Coord_Mat_double& writeHB_mat(const char *filename,
 
 
 
-VECTOR_double& readHB_rhs(const char *filename, VECTOR_double *b, int j)
+bool readHB_rhs(const char *filename, VECTOR_double *b, int j)
 {
     int M;
     int N; 
@@ -134,10 +134,12 @@ VECTOR_double& readHB_rhs(const char *filename, VECTOR_double *b, int j)
     else
     {
         printf(
-        "Error: HB file right-hand-size vector #%d in file '%s' not found.\n",
+        "Did not find HB file right-hand-size vector #%d in file '%s' \n",
             j, filename);
-        exit(1);
+	return false;
+	//        exit(1);
     }
-    return ( *b = T) ;
+    //    return ( *b = T) ;
+    return true;
 }
 

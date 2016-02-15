@@ -59,8 +59,8 @@ public:
        CompRow_Mat_double(const CompRow_Mat_double &S);
        CompRow_Mat_double(const CompCol_Mat_double &C);
        CompRow_Mat_double(const Coord_Mat_double &CO);
-       CompRow_Mat_double(int M, int N, int nz, double *val, int *r, 
-                               int *c, int base=0);
+       CompRow_Mat_double(int M, int N, int nz, const double *val, const int *r, 
+			  const int *c, int base=0);
        CompRow_Mat_double(int M, int N, int nz, const VECTOR_double &val, 
                                const VECTOR_int &r, const VECTOR_int &c,
                                int base=0);

@@ -103,8 +103,8 @@ GMRES(const Operator &A, Vector &x, const Vector &b,
 
   Vector *v = new Vector[m+1];
   double last_time = gs::get_cur_time();
-  std::cout << "-- GMRES iterations --" << std::endl;
-  std::cout << "| iter |    residule    |    rel tol   |   wtime   | " << std::endl;
+  std::cout << "| -----------------    GMRES iterations    -----------------------|" << std::endl;
+  std::cout << "| iter |    residule    |  convergence  |   rel tol    |   wtime  |" << std::endl;
   std::cout << std::scientific;
   while (j <= max_iter) {
     v[0] = r * (1.0 / beta);    // ??? r / beta
@@ -130,7 +130,8 @@ GMRES(const Operator &A, Vector &x, const Vector &b,
       resid = abs(s(i+1));
       double elapse = gs::get_cur_time(); 
       std::cout << "|  " << std::setfill('0') << std::setw(3)  <<  j << " |   "  << std::scientific
-		<< resid << " | " << resid/normb <<  " | " << std::fixed << elapse - last_time << "  |" << std::endl;
+		<< resid << " | " << abs(s(i+1)/s(i)) << " | " << resid/normb <<  " | " << std::fixed 
+		<< elapse - last_time << "  |" << std::endl;
       if ((resid / normb) < tol) {
         Update(x, i, H, s, v);
         tol = resid;

@@ -56,4 +56,4 @@ const Coord_Mat_double& writeHB_mat(const char *filename,
     int nrhs=0, const double* rhs=0,
     const char *title=0, const char *key=0);
 
-VECTOR_double& readHB_rhs(const char *filename, VECTOR_double *b, int j=0);
+bool readHB_rhs(const char *filename, VECTOR_double *b, int j=0);

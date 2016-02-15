@@ -206,6 +206,7 @@ char *Rhstype;
     (void) sscanf(line, "%72c %8c", Title, Key);
 
 /*  Second line:  */
+    *Rhscrd = 0;
     line_ptr = fgets(line, 82, in_file);
     nullchk(line_ptr);
     (void) sscanf(line, "%i %i %i %i %i", &Totcrd, Ptrcrd, Indcrd, 
@@ -1025,8 +1026,8 @@ int pos, len;
     SubS = malloc(len+1);
     if ( (pos+len) > strlen(S))
     {
-       printf("Error: Substring (%s, %d, %d) will read beyond string boundary.\n",
-               S, pos, len);
+       printf("Error: Substring (%s, %d, %d) will read beyond string boundary %d.\n",
+	      S, pos, len, strlen(S));
        exit(1);
     }
     for (i=0;i<len;i++)
