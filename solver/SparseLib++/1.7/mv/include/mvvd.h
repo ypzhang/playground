@@ -133,6 +133,8 @@ class MV_Vector_double
     inline  int             dim() const { return dim_;}
     inline int                      ref() const { return  ref_;}
     inline int                      null() const {return dim_== 0;}
+  inline double *data() {  return p_;  }
+  inline const double *data() const {  return p_;  }
             //
             // Create a new *uninitalized* vector of size N
             MV_Vector_double & newsize( int );

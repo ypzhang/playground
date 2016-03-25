@@ -38,6 +38,7 @@ CopyInvDiagonals(int n, const int *pntr, const int *indx,
 {
   int i, j;
 
+  #pragma omp for
   for (i = 0; i < n; i++)
     diag[i] = 0;
   
@@ -45,10 +46,10 @@ CopyInvDiagonals(int n, const int *pntr, const int *indx,
   for (i = 0; i < n; i++) {
     for (j = pntr[i]; j < pntr[i+1]; j++) {
       if (indx[j] == i) {
-    if (sa[j] == 0)
-      return i;
-    diag[i] = 1. / sa[j];
-    break;
+	if (sa[j] == 0)
+	  return i;
+	diag[i] = 1. / sa[j];
+	break;
       }
     }
     if (diag[i] == 0)
@@ -90,8 +91,9 @@ DiagPreconditioner_double::DiagPreconditioner_double(const CompCol_Mat_double &C
 VECTOR_double 
 DiagPreconditioner_double::solve (const VECTOR_double &x) const 
 {
+  // TODO change the interface to solve(x, y) to avoid extra vector copy 
   VECTOR_double y(x.size());
-
+  #pragma omp for
   for (int i = 0; i < x.size(); i++)
     y(i) = x(i) * diag(i);
   
@@ -104,6 +106,8 @@ DiagPreconditioner_double::trans_solve (const VECTOR_double &x) const
 {
   VECTOR_double y(x.size());
 
+
+  #pragma omp for
   for (int i = 0; i < x.size(); i++)
     y(i) = x(i) * diag(i);
   

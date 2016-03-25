@@ -54,6 +54,7 @@ MV_Vector_double::MV_Vector_double( int n, const double& v) :
         std::cerr << "       Most likely out of memory... " << "\n";
         exit(1);
     }
+    #pragma omp for 
     for (int i=0; i<n; i++)
         p_[i] = v;
 }
@@ -161,6 +162,7 @@ MV_Vector_double& MV_Vector_double::operator=(const MV_Vector_double & m)
         newsize(N);
 
         // no need to test for overlap, since this region is new
+        #pragma omp for
         for (i =0; i< N; i++)       // careful not to use bcopy()
             p_[i] = m.p_[i];        // here, but double::operator= double.
     }
@@ -178,7 +180,7 @@ MV_Vector_double::MV_Vector_double(const MV_Vector_double & m) : p_(new double[m
     }
 
     int N = m.dim_;
-
+    #pragma omp for
     for (int i=0; i<N; i++)
         p_[i] = m.p_[i];
 }
@@ -191,6 +193,7 @@ MV_Vector_double::MV_Vector_double(double* d,  int n) : p_(new double[n]),
         std::cerr << "Error: Null pointer in MV_Vector_double(double*, int) " << "\n";
         exit(1);
     }
+    #pragma omp for
     for (int i=0; i<n; i++)
         p_[i] = d[i];
 
@@ -206,6 +209,7 @@ MV_Vector_double::MV_Vector_double(const double* d,  int n) : p_(new double[n]),
         std::cerr << "Error: Null pointer in MV_Vector_double(double*, int) " << "\n";
         exit(1);
     }
+    #pragma omp for
     for (int i=0; i<n; i++)
         p_[i] = d[i];
 
@@ -275,6 +279,7 @@ std::ostream&   operator<<(std::ostream& s, const MV_Vector_double& V)
 {
     int N = V.size();
 
+    #pragma omp for
     for (int i=0; i< N; i++)
         s << V(i) << "\n";
     

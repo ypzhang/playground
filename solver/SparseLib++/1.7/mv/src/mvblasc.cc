@@ -31,6 +31,7 @@
 MV_Vector_COMPLEX& operator*=(MV_Vector_COMPLEX &x, const COMPLEX &a)
 {
       int N = x.size();
+      #pragma omp parallel for
       for (int i=0;i<N;i++)
          x(i) *= a;
       return x;
@@ -40,6 +41,7 @@ MV_Vector_COMPLEX operator*(const COMPLEX &a, const MV_Vector_COMPLEX &x)
 {
       int N = x.size();
       MV_Vector_COMPLEX result(N);
+      #pragma omp parallel for
       for (int i=0;i<N;i++)
          result(i) = x(i)*a;
       return result;
@@ -57,6 +59,7 @@ MV_Vector_COMPLEX operator*(const MV_Vector_COMPLEX &x, const COMPLEX &a)
 
       int N = x.size();
       MV_Vector_COMPLEX result(N);
+      #pragma omp parallel for
       for (int i=0;i<N;i++)
          result(i) = x(i)*a;
       return result;
@@ -73,6 +76,7 @@ MV_Vector_COMPLEX operator+(const MV_Vector_COMPLEX &x, const MV_Vector_COMPLEX 
       }
       
       MV_Vector_COMPLEX result(N);
+      #pragma omp parallel for
       for (int i=0;i<N; i++)
          result(i) = x(i) + y(i);
       return result;
@@ -88,6 +92,7 @@ MV_Vector_COMPLEX operator-(const MV_Vector_COMPLEX &x, const MV_Vector_COMPLEX 
       }
       
       MV_Vector_COMPLEX result(N);
+      #pragma omp parallel for
       for (int i=0;i<N; i++)
          result(i) = x(i) - y(i);
       return result;
@@ -102,7 +107,7 @@ MV_Vector_COMPLEX& operator+=(MV_Vector_COMPLEX &x, const MV_Vector_COMPLEX &y)
          std::cout << "Incompatible vector lengths in -." << "\n";
          exit(1);
       }
-      
+      #pragma omp parallel for      
       for (int i=0;i<N; i++)
          x(i) += y(i);
       return x;
@@ -117,7 +122,7 @@ MV_Vector_COMPLEX& operator-=(MV_Vector_COMPLEX &x, const MV_Vector_COMPLEX &y)
          std::cout << "Incompatible vector lengths in -." << "\n";
          exit(1);
       }
-      
+      #pragma omp parallel for      
       for (int i=0;i<N; i++)
          x(i) -= y(i);
       return x;
@@ -139,6 +144,7 @@ COMPLEX dot(const MV_Vector_COMPLEX &x, const MV_Vector_COMPLEX &y)
       }
 
       COMPLEX temp =  0;
+      #pragma omp parallel for
       for (int i=0; i<x.size();i++)
            temp += x(i)*y(i);
       return temp;
