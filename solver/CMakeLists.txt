@@ -44,7 +44,7 @@ target_link_libraries(tgmres rsolver)
 add_executable(tbicgsta testing/tbicgsta.cc)
 target_link_libraries(tbicgsta rsolver)
 
-add_subdirectory(testing/catch)
+# add_subdirectory(testing/catch)
 
 
 

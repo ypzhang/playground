@@ -143,7 +143,7 @@ double dot(const MV_Vector_double &x, const MV_Vector_double &y)
     }
 
   double temp =  0;
-#pragma pragma omp parallel reduction(+: temp)
+#pragma omp parallel reduction(+: temp)
   for (int i=0; i<x.size();i++)
     temp += x(i)*y(i);
   return temp;
